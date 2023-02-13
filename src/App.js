@@ -80,7 +80,7 @@ export function SimpleContainer({ children }) {
 
 const steps = [
   "Retrieving from PACS",
-  "Uploading to Cube",
+  "Uploading to ChRIS",
   "Running the analysis",
   "Generating Heatmaps",
   "Analyzing Leg Length",
@@ -111,7 +111,7 @@ export function StepperComponent() {
     if (count < steps.length) {
       setCount(count + 1);
     }
-  }, 5000);
+  }, 3000);
 
   useInterval(() => {
     if (count === steps.length && processingCount < 7) {
@@ -135,11 +135,10 @@ export function StepperComponent() {
           ))}
         </Stepper>
       </Box>
-      {count >= 2 && (
-        <Box sx={{ width: "100%", marginTop: "2rem" }}>
-          <ImageScanner />
-        </Box>
-      )}
+
+      <Box sx={{ width: "100%", marginTop: "2rem" }}>
+        <ImageScanner count={count} />
+      </Box>
     </>
   );
 }

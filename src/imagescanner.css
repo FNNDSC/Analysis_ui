@@ -4,12 +4,16 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   height: 500px;
 }
+
+#container {
+  height: 500px;
+}
+
 #monitor .screen {
   margin: auto;
   margin-top: 10px;
   width: 100%;
   height: 100%;
-
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -21,7 +25,7 @@
   z-index: 9999;
   -moz-animation: scan 5s infinite;
   -webkit-animation: scan 5s infinite;
-  animation: scan 5s infinite;
+  animation: scan 3s infinite;
   animation-direction: alternate-reverse;
   box-shadow: 0px 0px 30px rgba(255, 204, 102, 0.8);
   background-color: rgba(255, 255, 255, 0.5);
@@ -37,4 +41,25 @@
     -webkit-transform: translateY(210px);
     transform: translateY(240px);
   }
+}
+
+@keyframes active {
+  0% {
+    fill: #bee1f4;
+  }
+  50% {
+    fill: #1769aa;
+  }
+  100% {
+    fill: #90caf9;
+  }
+}
+
+.css-m8a1uf-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+  animation-name: active;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-delay: 1s;
+  animation-fill-mode: both;
 }

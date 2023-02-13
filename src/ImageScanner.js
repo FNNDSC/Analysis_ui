@@ -26,7 +26,7 @@ cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
 
 const stack1 = "wadouri:" + test1;
 
-const ImageScanner = () => {
+const ImageScanner = ({ count }) => {
   const [imageId, setImageId] = React.useState();
 
   React.useEffect(() => {
@@ -42,11 +42,11 @@ const ImageScanner = () => {
 
   return (
     <>
-      <div id="monitor">
-        <div className="scan"></div>
+      <div id={count >= 2 ? "monitor" : "container"}>
+        <div className={count >= 2 ? "scan" : ""}></div>
         <div
           style={{ minWidth: "100%", height: "100%", flex: "1" }}
-          className="screen"
+          className={count > -2 ? "screen" : ""}
         >
           {imageId && imageId.length > 0 && (
             <CornerstoneViewport activeTool={"Invert"} imageIds={imageId} />
