@@ -32,7 +32,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### Using Docker
 
-Use these commands to build the app.
+Use these commands for a production build.
 
 ```shell
  docker build -t local/analysis_ui .
@@ -40,7 +40,7 @@ Use these commands to build the app.
  ```
 
 
- Use these commands for your local development.
+ Use these commands for your local development build.
 
  ```shell
 docker build -t local/analysis_ui:dev -f Dockerfile_dev .
