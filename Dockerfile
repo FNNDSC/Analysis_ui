@@ -43,9 +43,7 @@ RUN yarn global add sirv-cli
 WORKDIR /app
 
 COPY --from=builder /app/build /app
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
 ENV HOST=0.0.0.0 PORT=3000
 CMD ["sirv", "--quiet", "--etag", "--single"]
 EXPOSE 3000
