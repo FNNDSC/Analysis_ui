@@ -72,7 +72,7 @@ const Div = styled("div")(({ theme }) => ({
 export function SimpleContainer({ children }) {
   return (
     <React.Fragment>
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Box sx={{ height: "100vh" }}>{children}</Box>
       </Container>
     </React.Fragment>
@@ -126,9 +126,9 @@ export function StepperComponent() {
     }
   }, 100);
 
-  if (processingCount === 7) {
+  const viewImage = () => {
     navigate("/visualization");
-  }
+  };
 
   const displayFor = seriesUID || studyUID || userID;
 
@@ -152,6 +152,19 @@ export function StepperComponent() {
       </Box>
 
       <Box sx={{ width: "100%", marginTop: "2rem" }}>
+        {count === 5 && (
+          <Button
+            variant="container"
+            onClick={() => {
+              viewImage();
+            }}
+          >
+            View Side by Side
+          </Button>
+        )}
+      </Box>
+
+      <Box sx={{ height: "100%", width: "100%", marginTop: "2rem" }}>
         <ImageScanner count={count} />
       </Box>
     </>

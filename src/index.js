@@ -15,11 +15,11 @@ const Routes = () => {
   const element = useRoutes([
     {
       path: "/",
-      element: <Navigate to="/LLDUI" />,
+      element: <Navigate to="/LegMeas" />,
     },
 
     {
-      path: "/LLDUI",
+      path: "/LegMeas",
       element: (
         <App
           children={

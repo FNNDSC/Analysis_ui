@@ -8,6 +8,7 @@ import * as cornerstoneMath from "cornerstone-math";
 import Hammer from "hammerjs";
 import CornerstoneViewport from "react-cornerstone-viewport";
 import test1 from "./test/input.dcm";
+import test2 from "./test/output.dcm";
 import "./imagescanner.css";
 
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
@@ -25,31 +26,62 @@ cornerstoneTools.init();
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
 
 const stack1 = "wadouri:" + test1;
+const stack2 = "wadouri:" + test2;
 
 const ImageScanner = ({ count }) => {
-  const [imageId, setImageId] = React.useState();
+  const [imageIds, setImageIds] = React.useState();
+
+  const toggleAnimation = React.useCallback(() => {
+    const previewAnimation = [{ opacity: "0.0" }, { opacity: "1.0" }];
+
+    const previewAnimationTiming = {
+      duration: 2000,
+      iterations: 1,
+    };
+    document
+      .querySelector(".cornerstone-canvas")
+      ?.animate(previewAnimation, previewAnimationTiming);
+  }, []);
 
   React.useEffect(() => {
     async function loadImages() {
-      const imageId1 = await cornerstone
-        .loadAndCacheImage(stack1)
-        .then((image) => image.imageId);
-      setImageId([imageId1]);
+      if (count === 0) {
+       
+        const imageId1 = await cornerstone
+          .loadAndCacheImage(stack1)
+          .then((image) => image.imageId);
+        setImageIds([imageId1]);
+        toggleAnimation();
+      }
+
+      if (count === 5) {
+        const imageId2 = await cornerstone
+          .loadAndCacheImage(stack2)
+          .then((image) => image.imageId);
+        setImageIds([imageId2]);
+        toggleAnimation();
+      }
     }
 
     loadImages();
-  }, []);
+  }, [count, toggleAnimation]);
+
+  const scan = count >= 2 && count <= 4;
 
   return (
     <>
-      <div id={count >= 2 ? "monitor" : "container"}>
-        <div className={count >= 2 ? "scan" : ""}></div>
+      <div id={scan ? "monitor" : "container"}>
+        <div className={scan ? "scan" : ""}></div>
         <div
           style={{ minWidth: "100%", height: "100%", flex: "1" }}
-          className={count > -2 ? "screen" : ""}
+          className={scan ? "screen" : ""}
         >
-          {imageId && imageId.length > 0 && (
-            <CornerstoneViewport activeTool={"Invert"} imageIds={imageId} />
+          {imageIds && imageIds.length > 0 && (
+            <CornerstoneViewport
+              tools={["Length"]}
+              activeTool={"Length"}
+              imageIds={imageIds}
+            />
           )}
         </div>
       </div>
