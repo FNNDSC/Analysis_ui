@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { App, SimpleContainer, StepperComponent } from "./App";
@@ -14,6 +15,11 @@ const Routes = () => {
   const element = useRoutes([
     {
       path: "/",
+      element: <Navigate to="/LLDUI" />,
+    },
+
+    {
+      path: "/LLDUI",
       element: (
         <App
           children={

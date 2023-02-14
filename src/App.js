@@ -17,6 +17,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ImageScanner from "./ImageScanner";
+import { useSearchParams } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -103,6 +104,12 @@ function useInterval(callback, delay) {
 }
 
 export function StepperComponent() {
+  const [searchParams] = useSearchParams();
+
+  const seriesUID = searchParams.get("SeriesUID");
+  const studyUID = searchParams.get("StudyUID");
+  const userID = searchParams.get("UserID");
+
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [processingCount, setProcessingCount] = useState(0);
@@ -123,9 +130,17 @@ export function StepperComponent() {
     navigate("/visualization");
   }
 
+  const displayFor = seriesUID || studyUID || userID;
+
   return (
     <>
-      <Div>Calculating The Leg Length</Div>
+      <Div variant="h1">
+        Calculating Leg Length {displayFor && "For"}{" "}
+        {seriesUID && `Series UID:${seriesUID}, `}
+        {studyUID && `Study UID:${studyUID}, `}
+        {userID && `User ID:${userID} `}
+      </Div>
+
       <Box sx={{ width: "100%", marginTop: "2rem" }}>
         <Stepper activeStep={count} alternativeLabel>
           {steps.map((label) => (
