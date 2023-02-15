@@ -54,7 +54,6 @@ const ImageScanner = ({ count }) => {
             return image.imageId;
           });
         setImageIds([imageId1]);
-        toggleAnimation();
       }
 
       if (count === 5) {
