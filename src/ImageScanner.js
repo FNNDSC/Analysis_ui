@@ -37,7 +37,7 @@ const ImageScanner = ({ count }) => {
     const previewAnimation = [{ opacity: "0.0" }, { opacity: "1.0" }];
 
     const previewAnimationTiming = {
-      duration: 2500,
+      duration: 1500,
       iterations: 1,
     };
     document
@@ -50,7 +50,9 @@ const ImageScanner = ({ count }) => {
       if (count === 0) {
         const imageId1 = await cornerstone
           .loadAndCacheImage(stack1)
-          .then((image) => image.imageId);
+          .then((image) => {
+            return image.imageId;
+          });
         setImageIds([imageId1]);
         toggleAnimation();
       }
@@ -58,7 +60,9 @@ const ImageScanner = ({ count }) => {
       if (count === 5) {
         const imageId2 = await cornerstone
           .loadAndCacheImage(stack2)
-          .then((image) => image.imageId);
+          .then((image) => {
+            return image.imageId;
+          });
         setImageIds([imageId2]);
         toggleAnimation();
       }
@@ -73,7 +77,7 @@ const ImageScanner = ({ count }) => {
   };
   return (
     <>
-      <div id={scan ? "monitor" : "container"}>
+      <div id={`container`} className={scan ? "monitor" : ""}>
         <div className={scan ? "scan" : ""}></div>
         <div
           style={{ minWidth: "100%", height: "100%", flex: "1" }}
