@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
 import {
   CssBaseline,
   Stepper,
@@ -110,7 +109,6 @@ export function StepperComponent() {
   const studyUID = searchParams.get("StudyUID");
   const userID = searchParams.get("UserID");
 
-  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [processingCount, setProcessingCount] = useState(0);
 
@@ -125,10 +123,6 @@ export function StepperComponent() {
       setProcessingCount(processingCount + 1);
     }
   }, 100);
-
-  const viewImage = () => {
-    navigate("/visualization");
-  };
 
   const displayFor = seriesUID || studyUID || userID;
 
@@ -149,19 +143,6 @@ export function StepperComponent() {
             </Step>
           ))}
         </Stepper>
-      </Box>
-
-      <Box sx={{ width: "100%", marginTop: "2rem" }}>
-        {count === 5 && (
-          <Button
-            variant="container"
-            onClick={() => {
-              viewImage();
-            }}
-          >
-            View Side by Side
-          </Button>
-        )}
       </Box>
 
       <Box sx={{ height: "100%", width: "100%", marginTop: "2rem" }}>

@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 import * as dicomParser from "dicom-parser";
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneTools from "cornerstone-tools";
@@ -30,12 +31,13 @@ const stack2 = "wadouri:" + test2;
 
 const ImageScanner = ({ count }) => {
   const [imageIds, setImageIds] = React.useState();
+  const navigate = useNavigate();
 
   const toggleAnimation = React.useCallback(() => {
     const previewAnimation = [{ opacity: "0.0" }, { opacity: "1.0" }];
 
     const previewAnimationTiming = {
-      duration: 2000,
+      duration: 2500,
       iterations: 1,
     };
     document
@@ -46,7 +48,6 @@ const ImageScanner = ({ count }) => {
   React.useEffect(() => {
     async function loadImages() {
       if (count === 0) {
-       
         const imageId1 = await cornerstone
           .loadAndCacheImage(stack1)
           .then((image) => image.imageId);
@@ -67,7 +68,9 @@ const ImageScanner = ({ count }) => {
   }, [count, toggleAnimation]);
 
   const scan = count >= 2 && count <= 4;
-
+  const viewImage = () => {
+    navigate("/visualization");
+  };
   return (
     <>
       <div id={scan ? "monitor" : "container"}>
@@ -84,6 +87,17 @@ const ImageScanner = ({ count }) => {
             />
           )}
         </div>
+        {count === 5 && (
+          <Button
+            className="button"
+            variant="contained"
+            onClick={() => {
+              viewImage();
+            }}
+          >
+            View Side by Side
+          </Button>
+        )}
       </div>
     </>
   );
