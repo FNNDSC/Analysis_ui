@@ -4,9 +4,7 @@
   position: relative;
 }
 
-.cornerstone-canvas {
-  width: 1150px !important;
-  height: 912px !important;
+#container .cornerstone-canvas {
   animation: fadeIn 1.5s;
 }
 

@@ -1,33 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
-import * as dicomParser from "dicom-parser";
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneTools from "cornerstone-tools";
-import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
+import * as cornerstoneFileImageLoader from "cornerstone-file-image-loader";
 import * as cornerstoneMath from "cornerstone-math";
 import Hammer from "hammerjs";
 import CornerstoneViewport from "react-cornerstone-viewport";
-import test1 from "./test/input.dcm";
-import test2 from "./test/output.dcm";
+import test1 from "./test/input.jpg";
+import test2 from "./test/output.png";
+import test3 from "./test/heatmaps.jpg";
 import "./imagescanner.css";
 
-cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-cornerstoneWADOImageLoader.configure({
-  beforeSend: function (xhr) {
-    // Add custom headers here (e.g. auth tokens)
-    //xhr.setRequestHeader('x-auth-token', 'my auth token');
-  },
-});
-cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
+cornerstoneFileImageLoader.external.cornerstone = cornerstone;
+
 cornerstoneTools.external.cornerstone = cornerstone;
 cornerstoneTools.external.Hammer = Hammer;
 cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
 cornerstoneTools.init();
-cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
 
-const stack1 = "wadouri:" + test1;
-const stack2 = "wadouri:" + test2;
+async function fetchBlob(image) {
+  const blobURL = await fetch(image)
+    .then((response) => response.blob())
+    .then((blob) => blob);
+
+  return blobURL;
+}
 
 const ImageScanner = ({ count }) => {
   const [imageIds, setImageIds] = React.useState();
@@ -37,7 +35,7 @@ const ImageScanner = ({ count }) => {
     const previewAnimation = [{ opacity: "0.0" }, { opacity: "1.0" }];
 
     const previewAnimationTiming = {
-      duration: 1500,
+      duration: 100,
       iterations: 1,
     };
     document
@@ -45,25 +43,31 @@ const ImageScanner = ({ count }) => {
       ?.animate(previewAnimation, previewAnimationTiming);
   }, []);
 
+  const setImageIdsState = async (url) => {
+    const stack1 = cornerstoneFileImageLoader.fileManager.add(url);
+    const imageId1 = await cornerstone
+      .loadAndCacheImage(stack1)
+      .then((image) => {
+        return image.imageId;
+      });
+    setImageIds([imageId1]);
+  };
+
   React.useEffect(() => {
     async function loadImages() {
       if (count === 0) {
-        const imageId1 = await cornerstone
-          .loadAndCacheImage(stack1)
-          .then((image) => {
-            return image.imageId;
-          });
-        setImageIds([imageId1]);
+        const url = await fetchBlob(test1);
+        setImageIdsState(url);
+      }
+
+      if (count === 3) {
+        const url = await fetchBlob(test3);
+        setImageIdsState(url);
       }
 
       if (count === 5) {
-        const imageId2 = await cornerstone
-          .loadAndCacheImage(stack2)
-          .then((image) => {
-            return image.imageId;
-          });
-        setImageIds([imageId2]);
-        toggleAnimation();
+        const url = await fetchBlob(test2);
+        setImageIdsState(url);
       }
     }
 
