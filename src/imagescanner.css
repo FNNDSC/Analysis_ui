@@ -1,39 +1,11 @@
 #container {
-  width: 1150px;
-  height: 75%;
-  position: relative;
-}
-
-#container .cornerstone-canvas {
-  animation: fadeIn 1.5s;
-}
-
-.monitor .ViewportOverlay {
-  display: none;
-}
-
-#container .ViewportOverlay {
-  display: none;
-}
-
-.monitor .screen {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.monitor .scan {
-  height: 30%;
-  width: 100%;
   position: absolute;
-  z-index: 9999;
-  -moz-animation: scan 5s infinite;
-  -webkit-animation: scan 5s infinite;
-  animation: scan 3s infinite;
-  animation-direction: alternate-reverse;
-  box-shadow: 0px 0px 30px rgba(255, 204, 102, 0.8);
-  background-color: rgba(255, 255, 255, 0.5);
+  left: 30%;
+}
+
+#container img {
+  animation: fadeIn 1.5s;
+  height: 100%;
 }
 
 .button {

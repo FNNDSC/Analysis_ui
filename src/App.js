@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 import {
   CssBaseline,
   Stepper,
@@ -104,7 +105,7 @@ function useInterval(callback, delay) {
 
 export function StepperComponent() {
   const [searchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const seriesUID = searchParams.get("SeriesUID");
   const studyUID = searchParams.get("StudyUID");
   const userID = searchParams.get("UserID");
@@ -125,7 +126,11 @@ export function StepperComponent() {
   }, 100);
 
   const displayFor = seriesUID || studyUID || userID;
+  const viewImage = () => {
+    navigate("/visualization");
+  };
 
+  const scan = count >= 2 && count <= 4;
   return (
     <>
       <Div variant="h1">
@@ -145,8 +150,29 @@ export function StepperComponent() {
         </Stepper>
       </Box>
 
-      <Box sx={{ height: "100%", width: "100%", marginTop: "2rem" }}>
-        <ImageScanner count={count} />
+      <Box
+        sx={{
+          position: "relative",
+          height: "100%",
+          width: "100%",
+          marginTop: "2rem",
+        }}
+      >
+        <div className={scan ? "scan" : ""}></div>
+        <div className="screen">
+          <ImageScanner count={count} />
+          {count === 5 && (
+            <Button
+              className="button"
+              variant="contained"
+              onClick={() => {
+                viewImage();
+              }}
+            >
+              View Side by Side
+            </Button>
+          )}
+        </div>
       </Box>
     </>
   );
