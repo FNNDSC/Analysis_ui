@@ -96,7 +96,7 @@ const DicomViewer = () => {
   }, []);
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "90vh" }}>
       <div
         ref={divRef}
         style={{ display: "flex", flexWrap: "wrap", height: "100%" }}

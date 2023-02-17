@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import { useNavigate } from "react-router";
 import {
   CssBaseline,
@@ -82,9 +82,9 @@ export function SimpleContainer({ children }) {
 const steps = [
   "Retrieving from PACS",
   "Uploading to ChRIS",
-  "Running the analysis",
-  "Generating Heatmaps",
-  "Analyzing Leg Length",
+  "Finding Landmarks with AI",
+  "Measuring Lengths",
+  "Pushing to PACS",
 ];
 
 function useInterval(callback, delay) {
@@ -113,11 +113,14 @@ export function StepperComponent() {
   const [count, setCount] = useState(0);
   const [processingCount, setProcessingCount] = useState(0);
 
-  useInterval(() => {
-    if (count < steps.length) {
-      setCount(count + 1);
-    }
-  }, 3000);
+  useInterval(
+    () => {
+      if (count < steps.length + 1) {
+        setCount(count + 1);
+      }
+    },
+    count === 5 ? 1000 : 8000
+  );
 
   useInterval(() => {
     if (count === steps.length && processingCount < 7) {
@@ -130,7 +133,8 @@ export function StepperComponent() {
     navigate("/visualization");
   };
 
-  const scan = count >= 2 && count <= 4;
+  const scan = count >= 2 && count <= 3;
+
   return (
     <>
       <Div variant="h1">
@@ -155,13 +159,24 @@ export function StepperComponent() {
           position: "relative",
           height: "100%",
           width: "100%",
-          marginTop: "2rem",
+          marginTop: "3rem",
         }}
       >
         <div className={scan ? "scan" : ""}></div>
-        <div className="screen">
-          <ImageScanner count={count} />
-          {count === 5 && (
+
+        {count >= 4 && <div className="curtain-up"></div>}
+
+        <div
+          className={
+            count === 0
+              ? "curtain-down"
+              : count >= 1 && count <= 4
+              ? "screen"
+              : "screen-fade-out"
+          }
+        >
+          {count >= 1 && <ImageScanner count={count} />}
+          {count >= 4 && (
             <Button
               className="button"
               variant="contained"
