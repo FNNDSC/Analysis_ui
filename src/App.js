@@ -119,7 +119,7 @@ export function StepperComponent() {
         setCount(count + 1);
       }
     },
-    count === 5 ? 1000 : 8000
+    count === 5 ? 1000 : 4000
   );
 
   useInterval(() => {
