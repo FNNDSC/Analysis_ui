@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, CSSProperties } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import {
   CssBaseline,
@@ -10,12 +10,17 @@ import {
   Button,
   IconButton,
   Typography,
+  Alert,
   styled,
   AppBar,
   Container,
+  CircularProgress,
+  createTheme,
+  ThemeProvider,
+  Snackbar,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Menu } from "@mui/icons-material/";
+
 import ImageScanner from "./ImageScanner";
 import { useSearchParams } from "react-router-dom";
 
@@ -49,7 +54,7 @@ function BasicMenu() {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             FNNDSC
@@ -112,14 +117,22 @@ export function StepperComponent() {
 
   const [count, setCount] = useState(0);
   const [processingCount, setProcessingCount] = useState(0);
+  const [playing, setIsPlaying] = useState(false);
+  const [snackbar, setSnackBar] = useState(false);
+
+  useInterval(() => {
+    if (snackbar === true) {
+      setSnackBar(!snackbar);
+    }
+  }, 2500);
 
   useInterval(
     () => {
-      if (count < steps.length + 1) {
+      if (!playing && count < steps.length) {
         setCount(count + 1);
       }
     },
-    count === 5 ? 1000 : 4000
+    !playing ? 4000 : null
   );
 
   useInterval(() => {
@@ -137,6 +150,14 @@ export function StepperComponent() {
 
   return (
     <>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={snackbar}
+      >
+        <Alert severity="info">
+          {playing ? "Polling Stopped" : "Polling Resumed"}
+        </Alert>
+      </Snackbar>
       <Div variant="h1">
         Calculating Leg Length {displayFor && "For"}{" "}
         {seriesUID && `Series UID:${seriesUID}, `}
@@ -146,8 +167,16 @@ export function StepperComponent() {
 
       <Box sx={{ width: "100%", marginTop: "2rem" }}>
         <Stepper activeStep={count} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
+          {steps.map((label, index) => (
+            <Step
+              onClick={() => {
+                if (index === count) {
+                  setIsPlaying(!playing);
+                  setSnackBar(!snackbar);
+                }
+              }}
+              key={label}
+            >
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}
@@ -163,18 +192,20 @@ export function StepperComponent() {
         }}
       >
         <div className={scan ? "scan" : ""}></div>
-
-        {count >= 4 && <div className="curtain-up"></div>}
-
-        <div
-          className={
-            count === 0
-              ? "curtain-down"
-              : count >= 1 && count <= 4
-              ? "screen"
-              : "screen-fade-out"
-          }
-        >
+        {count >= 4 && count < 5 && <div className="pacs-push"></div>}
+        <div className="screen">
+          {count === 0 && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress height="70px" width="70px" />
+            </Box>
+          )}
           {count >= 1 && <ImageScanner count={count} />}
           {count >= 4 && (
             <Button

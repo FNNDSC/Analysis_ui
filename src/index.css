@@ -22,42 +22,54 @@ code {
   border: 2px solid #1565c0;
 }
 
-@keyframes curtain-down {
-  0% {
-    height: 0%;
-  }
-
-  100% {
-    height: 900px;
-  }
-}
-
-@keyframes curtain-up {
-  0% {
-    height: 0px;
-    transform: translateY(900px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 #container {
   position: absolute;
   left: 30%;
 }
 
+.css-16r1tk9 > span {
+  height: 70px !important;
+  width: 70px !important;
+}
+
+.css-m8a1uf-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+  animation-name: active;
+  animation-duration: 1.7s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-delay: 0.7s;
+  animation-fill-mode: both;
+}
+
 .screen {
-  animation: fadeIn 1.5s;
+  width: 100%;
+  height: 900px;
+  background-size: cover;
+  background-color: black;
 }
 
-.img-animate {
-  animation: fadeIn 2s;
+.pacs-push {
+  height: 5px;
+  -moz-animation: pacspush 5s infinite;
+  -webkit-animation: pacspush 5s infinite;
+  animation: pacspush 3s infinite;
 }
 
-.img-animateheat,
-.img-animateoutput {
-  animation: fadeIn 0.5s;
+.scan {
+  height: 10%;
+  -moz-animation: scan 5s infinite;
+  -webkit-animation: scan 5s infinite;
+  animation: scan 3s infinite;
+}
+
+.scan,
+.pacs-push {
+  width: 100%;
+  position: absolute;
+  z-index: 9999;
+  animation-direction: alternate-reverse;
+  box-shadow: 0px 0px 30px rgba(255, 204, 102, 0.8);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .button {
@@ -73,8 +85,19 @@ code {
     transform: translateY(0);
   }
   100% {
-    -webkit-transform: translateY(720px);
+    -webkit-transform: translateY(760px);
     transform: translateY(760px);
+  }
+}
+
+@keyframes pacspush {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(820px);
+    transform: translateY(820px);
   }
 }
 
@@ -106,52 +129,4 @@ code {
   100% {
     opacity: 0;
   }
-}
-
-.css-m8a1uf-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
-  animation-name: active;
-  animation-duration: 1.7s;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-  animation-delay: 0.7s;
-  animation-fill-mode: both;
-}
-
-.screen-fade-out,
-.img-fadeOut {
-  animation: fadeOut 30s;
-}
-
-.screen,
-.screen-fade-out,
-.curtain-down,
-.curtain-up {
-  width: 100%;
-  height: 900px;
-  background-size: cover;
-  background-color: black;
-}
-
-.curtain-up {
-  position: absolute;
-  height: 900px;
-  animation: curtain-up 30s;
-  z-index: 999999;
-}
-
-.curtain-down {
-  animation: curtain-down 30s infinite;
-}
-
-.scan {
-  height: 10%;
-  width: 100%;
-  position: absolute;
-  z-index: 9999;
-  -moz-animation: scan 5s infinite;
-  -webkit-animation: scan 5s infinite;
-  animation: scan 3s infinite;
-  animation-direction: alternate-reverse;
-  box-shadow: 0px 0px 30px rgba(255, 204, 102, 0.8);
-  background-color: rgba(255, 255, 255, 0.5);
 }

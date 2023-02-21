@@ -2,7 +2,7 @@ import React from "react";
 import input from "./test/input.jpg";
 import output from "./test/output.jpg";
 import heatmaps from "./test/heatmaps.jpg";
-
+import { Fade } from "@mui/material";
 
 const ImageScanner = ({ count }) => {
   const [src, setSrc] = React.useState();
@@ -25,18 +25,13 @@ const ImageScanner = ({ count }) => {
     loadImages();
   }, [count]);
 
-  const className =
-    count === 1
-      ? "img-animate"
-      : count === 3
-      ? "img-animateheat"
-      : count >= 4
-      ? "img-animateoutput img-fadeOut"
-      : "";
-
   return (
     <div id="container">
-      {<img alt="leg length images" className={className} src={src} />}
+      {
+        <Fade in={true}>
+          <img alt="leg length images" src={src} />
+        </Fade>
+      }
     </div>
   );
 };
