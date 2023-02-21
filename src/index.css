@@ -39,6 +39,7 @@ code {
   animation-iteration-count: infinite;
   animation-delay: 0.7s;
   animation-fill-mode: both;
+  cursor: pointer;
 }
 
 .screen {
