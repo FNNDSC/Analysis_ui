@@ -31,9 +31,9 @@ FROM node:19 as builder
 WORKDIR /app
 COPY . .
 
-
 RUN npm install --legacy-peer-deps
 RUN npm run build 
+
 
 
 FROM node:19-alpine
