@@ -9,11 +9,11 @@ const ImageScanner = ({ count }) => {
 
   React.useEffect(() => {
     async function loadImages() {
-      if (count === 1) {
+      if (count === 0.75) {
         setSrc(input);
       }
 
-      if (count === 3) {
+      if (count === 2.75) {
         setSrc(heatmaps);
       }
 

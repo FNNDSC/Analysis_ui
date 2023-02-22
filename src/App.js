@@ -14,7 +14,6 @@ import {
   styled,
   AppBar,
   Container,
-  CircularProgress,
   createTheme,
   ThemeProvider,
   Snackbar,
@@ -92,6 +91,9 @@ const steps = [
   "Pushing to PACS",
 ];
 
+const countTimings = [0, 1, 2, 3, 4];
+const transitionTimings = [0.5, 0.75, 1.25, 4.25, 3.75, 1.75, 4.75];
+
 function useInterval(callback, delay) {
   const savedCallback = useRef();
   useEffect(() => {
@@ -120,19 +122,31 @@ export function StepperComponent() {
   const [playing, setIsPlaying] = useState(false);
   const [snackbar, setSnackBar] = useState(false);
 
-  useInterval(() => {
-    if (snackbar === true) {
-      setSnackBar(!snackbar);
-    }
-  }, 2500);
+  console.log("Count", count);
+
+  const timing = transitionTimings.includes(count)
+    ? 1000
+    : countTimings.includes(count)
+    ? 2000
+    : 4000;
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        setIsPlaying((state) => !state);
+        setSnackBar((state) => !state);
+      }
+    });
+  }, []);
 
   useInterval(
     () => {
       if (!playing && count < steps.length) {
-        setCount(count + 1);
+        setCount(count + 0.25);
       }
     },
-    !playing ? 4000 : null
+    !playing ? timing : null
   );
 
   useInterval(() => {
@@ -141,12 +155,48 @@ export function StepperComponent() {
     }
   }, 100);
 
+  if (count >= 0.5 && count <= 0.75) {
+    const pacsPush = document.querySelector(".image-load");
+
+    if (pacsPush) {
+      const animation = pacsPush.animate(
+        {
+          transform: "translateY(820px)",
+        },
+        {
+          duration: 1000,
+          fill: "forwards",
+          iteration: "1",
+        }
+      );
+      animation.commitStyles();
+    }
+  }
+
+  if (count === 1.75 || count === 4.75) {
+    const imageLoad = document.querySelector(".image-push");
+    if (imageLoad) {
+      const animation = imageLoad.animate(
+        {
+          transform: "translateY(0px)",
+        },
+        {
+          duration: 1000,
+          fill: "forwards",
+          iteration: "1",
+        }
+      );
+      animation.commitStyles();
+    }
+  }
+
   const displayFor = seriesUID || studyUID || userID;
   const viewImage = () => {
     navigate("/visualization");
   };
 
-  const scan = count >= 2 && count <= 3;
+  const scan = count >= 2 && count <= 3.75;
+  let activeStep = fetchActiveStep(count);
 
   return (
     <>
@@ -166,14 +216,11 @@ export function StepperComponent() {
       </Div>
 
       <Box sx={{ width: "100%", marginTop: "2rem" }}>
-        <Stepper activeStep={count} alternativeLabel>
+        <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => (
             <Step
               onClick={() => {
-                if (index === count) {
-                  setIsPlaying(!playing);
-                  setSnackBar(!snackbar);
-                }
+                setCount(index);
               }}
               key={label}
             >
@@ -192,21 +239,15 @@ export function StepperComponent() {
         }}
       >
         <div className={scan ? "scan" : ""}></div>
-        {count >= 4 && count < 5 && <div className="pacs-push"></div>}
+
+        {count >= 0 && count <= 0.5 && <div className="image-load"></div>}
+        {((count >= 1.25 && count <= 1.75) ||
+          (count >= 4.25 && count <= 4.75)) && (
+          <div className="image-push"></div>
+        )}
+
         <div className="screen">
-          {count === 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <CircularProgress height="70px" width="70px" />
-            </Box>
-          )}
-          {count >= 1 && <ImageScanner count={count} />}
+          {count >= 0.75 && <ImageScanner count={count} />}
           {count >= 4 && (
             <Button
               className="button"
@@ -222,4 +263,18 @@ export function StepperComponent() {
       </Box>
     </>
   );
+}
+
+function fetchActiveStep(count) {
+  if (count >= 0 && count < 1) {
+    return 0;
+  } else if (count >= 1 && count < 2) {
+    return 1;
+  } else if (count >= 2 && count < 3) {
+    return 2;
+  } else if (count >= 3 && count < 4) {
+    return 3;
+  } else if (count >= 4 && count < 5) {
+    return 4;
+  } else if (count >= 5) return 5;
 }
