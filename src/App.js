@@ -19,7 +19,7 @@ import {
   ThemeProvider,
   Snackbar,
 } from "@mui/material";
-import { Menu } from "@mui/icons-material/";
+import { Menu, Fullscreen } from "@mui/icons-material/";
 
 import ImageScanner from "./ImageScanner";
 import { useSearchParams } from "react-router-dom";
@@ -57,7 +57,7 @@ function BasicMenu() {
             <Menu />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            FNNDSC
+            Automatic Leg Length Discrepancy with ChRIS 
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
@@ -255,15 +255,7 @@ export function StepperComponent() {
         <div className="screen">
           {count >= 0.75 && <ImageScanner count={count} />}
           {count >= 4 && (
-            <Button
-              className="button"
-              variant="contained"
-              onClick={() => {
-                viewImage();
-              }}
-            >
-              View Side by Side
-            </Button>
+            <Fullscreen className="button" onClick={() => viewImage()} />
           )}
         </div>
       </Box>
