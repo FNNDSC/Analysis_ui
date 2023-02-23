@@ -57,7 +57,7 @@ function BasicMenu() {
             <Menu />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Automatic Leg Length Discrepancy with ChRIS 
+            Automatic Leg Length Discrepancy with ChRIS
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
@@ -189,7 +189,9 @@ export function StepperComponent() {
     navigate("/visualization");
   };
 
-  const scan = count >= 2 && count <= 3.75;
+  const scanAi = count >= 2 && count <= 3;
+  const scanMeasurements = count >= 3 && count <= 3.75;
+
   const imageLoad = count >= 0 && count <= 0.75;
   const imagePush =
     (count >= 1 && count <= 1.75) || (count >= 4 && count <= 4.75);
@@ -223,8 +225,10 @@ export function StepperComponent() {
             >
               <StepLabel
                 className={
-                  scan && activeStep === index
-                    ? "scan-label"
+                  scanMeasurements && activeStep === index
+                    ? "scan-measure-label"
+                    : scanAi && activeStep === index
+                    ? "scan-ai-label"
                     : imageLoad && activeStep === index
                     ? "image-load-label"
                     : imagePush && activeStep === index
@@ -247,7 +251,11 @@ export function StepperComponent() {
           marginTop: "3rem",
         }}
       >
-        <div className={scan ? "scan" : ""}></div>
+        <div
+          className={`${scanMeasurements || scanAi ? "scan" : ""} ${
+            scanAi ? "scan-ai-shadow" : ""
+          } ${scanMeasurements ? "scan-measure-shadow" : ""}`}
+        ></div>
 
         {imageLoad && <div className="image-load"></div>}
         {imagePush && <div className="image-push"></div>}
