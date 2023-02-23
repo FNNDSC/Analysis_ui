@@ -1,6 +1,6 @@
 import React from "react";
 import input from "./test/input.jpg";
-import output from "./test/output.png";
+import output from "./test/output.jpg";
 import heatmaps from "./test/heatmaps.jpg";
 import { Fade } from "@mui/material";
 
