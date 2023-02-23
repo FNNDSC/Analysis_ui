@@ -78,6 +78,18 @@ code {
   box-shadow: 0px 0px 30px #ff7961;
 }
 
+.scan-label svg {
+  box-shadow: 0px 0px 30px #ff7961;
+}
+
+.image-push-label svg {
+  box-shadow: 0px 0px 30px #ffc107;
+}
+
+.image-load-label svg {
+  box-shadow: 0px 0px 30px #ffc107;
+}
+
 .scan,
 .image-load,
 .image-push {

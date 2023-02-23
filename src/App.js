@@ -13,6 +13,7 @@ import {
   Alert,
   styled,
   AppBar,
+  CircularProgress,
   Container,
   createTheme,
   ThemeProvider,
@@ -189,6 +190,9 @@ export function StepperComponent() {
   };
 
   const scan = count >= 2 && count <= 3.75;
+  const imageLoad = count >= 0 && count <= 0.75;
+  const imagePush =
+    (count >= 1 && count <= 1.75) || (count >= 4 && count <= 4.75);
   let activeStep = fetchActiveStep(count);
 
   return (
@@ -217,7 +221,19 @@ export function StepperComponent() {
               }}
               key={label}
             >
-              <StepLabel>{label}</StepLabel>
+              <StepLabel
+                className={
+                  scan && activeStep === index
+                    ? "scan-label"
+                    : imageLoad && activeStep === index
+                    ? "image-load-label"
+                    : imagePush && activeStep === index
+                    ? "image-push-label"
+                    : ""
+                }
+              >
+                {label}
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -233,10 +249,8 @@ export function StepperComponent() {
       >
         <div className={scan ? "scan" : ""}></div>
 
-        {count >= 0 && count <= 0.75 && <div className="image-load"></div>}
-        {((count >= 1 && count <= 1.75) || (count >= 4 && count <= 4.75)) && (
-          <div className="image-push"></div>
-        )}
+        {imageLoad && <div className="image-load"></div>}
+        {imagePush && <div className="image-push"></div>}
 
         <div className="screen">
           {count >= 0.75 && <ImageScanner count={count} />}
