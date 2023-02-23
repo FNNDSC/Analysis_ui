@@ -36,6 +36,10 @@ code {
   width: 70px !important;
 }
 
+.css-3603q-MuiTypography-root-MuiLink-root {
+  cursor: pointer;
+}
+
 .Mui-active > svg {
   animation-name: active;
   animation-duration: 1.7s;

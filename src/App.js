@@ -13,7 +13,7 @@ import {
   Alert,
   styled,
   AppBar,
-  CircularProgress,
+  Link,
   Container,
   createTheme,
   ThemeProvider,
@@ -59,7 +59,14 @@ function BasicMenu() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Automatic Leg Length Discrepancy with ChRIS
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://nightly.chrisproject.org/login"
+            underline="none"
+          >
+            ChRIS LOGIN
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
