@@ -91,7 +91,6 @@ const steps = [
   "Pushing to PACS",
 ];
 
-const countTimings = [0, 1, 2, 3, 4];
 const transitionTimings = [0.5, 0.75, 1.25, 4.25, 3.75, 1.75, 4.75];
 
 function useInterval(callback, delay) {
@@ -122,13 +121,7 @@ export function StepperComponent() {
   const [playing, setIsPlaying] = useState(false);
   const [snackbar, setSnackBar] = useState(false);
 
-  console.log("Count", count);
-
-  const timing = transitionTimings.includes(count)
-    ? 1000
-    : countTimings.includes(count)
-    ? 2000
-    : 4000;
+  const timing = transitionTimings.includes(count) ? 1000 : 3000;
 
   React.useEffect(() => {
     window.addEventListener("keydown", (event) => {
@@ -240,9 +233,8 @@ export function StepperComponent() {
       >
         <div className={scan ? "scan" : ""}></div>
 
-        {count >= 0 && count <= 0.5 && <div className="image-load"></div>}
-        {((count >= 1.25 && count <= 1.75) ||
-          (count >= 4.25 && count <= 4.75)) && (
+        {count >= 0 && count <= 0.75 && <div className="image-load"></div>}
+        {((count >= 1 && count <= 1.75) || (count >= 4 && count <= 4.75)) && (
           <div className="image-push"></div>
         )}
 

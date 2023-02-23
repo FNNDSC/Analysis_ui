@@ -49,26 +49,24 @@ code {
   background-color: black;
 }
 
-.image-push {
+.image-push,
+.image-load {
   height: 5px;
+  animation-direction: normal;
+}
+
+.image-push {
   -moz-animation: pacspush 20s 1;
   -webkit-animation: pacspush 20s 1;
   animation: pacspush 20s 1;
+  box-shadow: 0px 0px 30px #ffc107;
 }
 
 .image-load {
-  height: 5px;
   -moz-animation: pacsretrieve 20s 1;
   -webkit-animation: pacsretrieve 20s 1;
   animation: pacsretrieve 20s 1;
-}
-
-.image-load {
-  animation-direction: normal;
-}
-
-.image-push {
-  animation-direction: normal;
+  box-shadow: 0px 0px 30px #ffc107;
 }
 
 .scan {
@@ -77,6 +75,7 @@ code {
   -webkit-animation: scan 5s infinite;
   animation: scan 3s infinite;
   animation-direction: alternate-reverse;
+  box-shadow: 0px 0px 30px #ff7961;
 }
 
 .scan,
@@ -85,25 +84,24 @@ code {
   width: 100%;
   position: absolute;
   z-index: 9999;
-  box-shadow: 0px 0px 30px rgba(255, 204, 102, 0.8);
   background-color: rgba(255, 255, 255, 0.5);
 }
 
 .button {
   top: 0;
-  right: 0;
+  left: 0;
   position: absolute !important;
   z-index: 9999999999;
 }
 
 @keyframes scan {
   0% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-  100% {
     -webkit-transform: translateY(760px);
     transform: translateY(760px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
 }
 
