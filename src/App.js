@@ -48,10 +48,9 @@ const InfoComponent = () => {
 
   let title = "";
   if (location.pathname === "/LegMeas") {
-    title =
-      "Analyses (aka ChRIS feeds) are computational experiments where data are organized and processed by ChRIS plugins. In this view you may view your analyses and also the ones shared with you.";
+    title = "LegMeas uses ChRIS to automatically determine leg lengths from a CT image. Each of the progress stops represents stations in the processing. Since ChRIS is independent from a clinical service, an image to process must first be pulled into ChRIS for analysis. Once finished, ChRIS will push the resultant image back to the source PACS where it will appear in the Study as a new Series. To see the detailed view of the processing within ChRIS, please hit the LOGIN button.\n\nOnce an analysis is complete, hit the full screen icon [] for an immersive view."
   } else if (location.pathname === "/visualization") {
-    title = "Visualization";
+    title = "This immersive view shows the original and processed images size by size. You can draw measurement markers on the image using the mouse.\n\nTo remove a marker, mouse over so that it turns green. Then, simply drag and drop the marker in the background black bars on either side of the images to trash it.";
   }
 
   return (
