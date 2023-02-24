@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
+import { IconButton } from "@mui/material";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as dicomParser from "dicom-parser";
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneTools from "cornerstone-tools";
@@ -63,7 +65,7 @@ const getInitialState = () => {
 };
 
 const DicomViewer = () => {
-  const divRef = useRef();
+  const [element, setEnabledElement] = React.useState([]);
   const [dicomState, setDicomState] = React.useState(getInitialState());
   const { viewports, tools, imageIds, imageIdIndex, activeViewportIndex } =
     dicomState;
@@ -91,10 +93,7 @@ const DicomViewer = () => {
 
   return (
     <div style={{ height: "90vh" }}>
-      <div
-        ref={divRef}
-        style={{ display: "flex", flexWrap: "wrap", height: "100%" }}
-      >
+      <div style={{ display: "flex", flexWrap: "wrap", height: "100%" }}>
         {imageIds.length > 0 &&
           viewports.map((viewport, index) => {
             const className = activeViewportIndex === viewport ? "active" : "";
@@ -105,7 +104,37 @@ const DicomViewer = () => {
                 className={className}
                 style={{ minWidth: "50%", height: "100%", flex: "1" }}
               >
+                <IconButton
+                  onClick={async () => {
+                    if (element.length > 0) {
+                      const resetElement = element[index];
+                      cornerstoneTools.clearToolState(
+                        resetElement.element,
+                        "Length"
+                      );
+                      cornerstone.reset(resetElement.element);
+                    }
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    fill="currentColor"
+                    class="bi bi-eraser"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                  </svg>
+                </IconButton>
                 <CornerstoneViewport
+                  onElementEnabled={(elementEnabledEvt) => {
+                    console.log(elementEnabledEvt);
+                    const cornerstoneElement = elementEnabledEvt.detail;
+                    const newElement = element;
+                    newElement[index] = cornerstoneElement;
+                    setEnabledElement(newElement);
+                  }}
                   activeViewportIndex={activeViewportIndex}
                   activeTool={"Length"}
                   key={index}
