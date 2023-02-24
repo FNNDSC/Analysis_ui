@@ -1,8 +1,8 @@
 import React from "react";
+import { Fade } from "@mui/material";
 import input from "./test/input.jpg";
 import output from "./test/output.jpg";
 import heatmaps from "./test/heatmaps.jpg";
-import { Fade } from "@mui/material";
 
 const ImageScanner = ({ count }) => {
   const [src, setSrc] = React.useState();

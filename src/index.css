@@ -13,8 +13,13 @@ body {
 }
 
 .css-1y6qvsp,
-.css-1k0i2s9-MuiPaper-root-MuiAppBar-root {
+.css-1k0i2s9-MuiPaper-root-MuiAppBar-root,
+.footer {
   background-color: #212121 !important;
+}
+
+.css-ja5taz-MuiTooltip-tooltip {
+  font-size: 1rem !important;
 }
 
 code {

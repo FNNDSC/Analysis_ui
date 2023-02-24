@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import {
   CssBaseline,
   Stepper,
@@ -10,18 +11,17 @@ import {
   IconButton,
   Typography,
   Alert,
-  styled,
   AppBar,
   Link,
   Container,
   createTheme,
   ThemeProvider,
   Snackbar,
+  Tooltip,
 } from "@mui/material";
-import { Menu, Fullscreen } from "@mui/icons-material/";
-
+import { Menu, Fullscreen, Info } from "@mui/icons-material/";
 import ImageScanner from "./ImageScanner";
-import { useSearchParams } from "react-router-dom";
+import Footer from "./Footer";
 
 const theme = createTheme({
   palette: {
@@ -35,11 +35,39 @@ export function App({ children }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BasicMenu />
+
         {children}
+        <Footer />
       </ThemeProvider>
     </div>
   );
 }
+
+const InfoComponent = () => {
+  const location = useLocation();
+
+  let title = "";
+  if (location.pathname === "/LegMeas") {
+    title =
+      "Analyses (aka ChRIS feeds) are computational experiments where data are organized and processed by ChRIS plugins. In this view you may view your analyses and also the ones shared with you.";
+  } else if (location.pathname === "/visualization") {
+    title = "Visualization";
+  }
+
+  return (
+    <Tooltip title={title} placement="bottom">
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
+      >
+        <Info />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 function BasicMenu() {
   return (
@@ -58,6 +86,9 @@ function BasicMenu() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Automatic Leg Length Discrepancy with ChRIS
           </Typography>
+
+          <InfoComponent />
+
           <Link
             target="_blank"
             rel="noopener noreferrer"
@@ -71,14 +102,6 @@ function BasicMenu() {
     </Box>
   );
 }
-
-const Div = styled("div")(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  marginTop: "1rem",
-}));
 
 export function SimpleContainer({ children }) {
   return (
@@ -117,11 +140,7 @@ function useInterval(callback, delay) {
 }
 
 export function StepperComponent() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const seriesUID = searchParams.get("SeriesUID");
-  const studyUID = searchParams.get("StudyUID");
-  const userID = searchParams.get("UserID");
 
   const [count, setCount] = useState(0);
   const [processingCount, setProcessingCount] = useState(0);
@@ -190,7 +209,6 @@ export function StepperComponent() {
     }
   }
 
-  const displayFor = seriesUID || studyUID || userID;
   const viewImage = () => {
     navigate("/visualization");
   };
@@ -213,12 +231,6 @@ export function StepperComponent() {
           {playing ? "Polling Stopped" : "Polling Resumed"}
         </Alert>
       </Snackbar>
-      <Div variant="h1">
-        Calculating Leg Length {displayFor && "For"}{" "}
-        {seriesUID && `Series UID:${seriesUID}, `}
-        {studyUID && `Study UID:${studyUID}, `}
-        {userID && `User ID:${userID} `}
-      </Div>
 
       <Box sx={{ width: "100%", marginTop: "2rem" }}>
         <Stepper activeStep={activeStep} alternativeLabel>
@@ -271,7 +283,9 @@ export function StepperComponent() {
         <div className="screen">
           {count >= 0.75 && <ImageScanner count={count} />}
           {count >= 4 && (
-            <Fullscreen className="button" onClick={() => viewImage()} />
+            <IconButton className="button" onClick={() => viewImage()}>
+              <Fullscreen />
+            </IconButton>
           )}
         </div>
       </Box>

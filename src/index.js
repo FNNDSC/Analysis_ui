@@ -1,11 +1,9 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { BrowserRouter, useRoutes, Navigate } from "react-router-dom";
 import { App, SimpleContainer, StepperComponent } from "./App";
-
-import { BrowserRouter, useRoutes } from "react-router-dom";
 import DicomViewer from "./DicomViewer";
+import "./index.css";
 
 const NotFound = () => {
   return <div>NotFound</div>;

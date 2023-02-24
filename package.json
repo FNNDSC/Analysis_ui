@@ -13,6 +13,7 @@
     "cornerstone-wado-image-loader": "^4.8.0",
     "dicom-parser": "^1.8.20",
     "hammerjs": "^2.0.8",
+    "preval.macro": "^5.0.0",
     "react": "^18.2.0",
     "react-cornerstone-viewport": "^4.1.5",
     "react-dom": "^18.2.0",
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "print-version": "./print_version.sh"
   },
   "eslintConfig": {
     "extends": [
