@@ -12,6 +12,10 @@ const NotFound = () => {
 };
 
 const Routes = () => {
+  React.useEffect(() => {
+    document.title = "ChRIS LegMeas";
+  }, []);
+
   const element = useRoutes([
     {
       path: "/",
