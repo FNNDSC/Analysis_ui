@@ -30,8 +30,6 @@ const theme = createTheme({
 });
 
 export function App({ children }) {
-
-
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -259,11 +257,13 @@ export function StepperComponent() {
           marginTop: "3rem",
         }}
       >
-        <div
-          className={`${scanMeasurements || scanAi ? "scan" : ""} ${
-            scanAi ? "scan-ai-shadow" : ""
-          } ${scanMeasurements ? "scan-measure-shadow" : ""}`}
-        ></div>
+        {(scanMeasurements || scanAi) && (
+          <div
+            className={`${scanMeasurements || scanAi ? "scan" : ""} ${
+              scanAi ? "scan-ai-shadow" : ""
+            } ${scanMeasurements ? "scan-measure-shadow" : ""}`}
+          ></div>
+        )}
 
         {imageLoad && <div className="image-load"></div>}
         {imagePush && <div className="image-push"></div>}
