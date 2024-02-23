@@ -26,7 +26,7 @@
 # - docker-entrypoint.sh must start as root
 
 
-FROM node:19 as builder
+FROM node:20.7 as builder
 
 WORKDIR /app
 COPY . .
@@ -36,14 +36,15 @@ RUN npm run build
 
 
 
-FROM node:19-alpine
+FROM node:20.7-alpine
 
-RUN yarn global add sirv-cli
-
+RUN npm i -g sirv-cli
 WORKDIR /app
-
+COPY --from=builder /app/dist /app
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY --from=builder /app/build /app
-
+ENTRYPOINT ["/docker-entrypoint.sh"]
 ENV HOST=0.0.0.0 PORT=3000
-CMD ["sirv", "--quiet", "--etag", "--single"]
+CMD ["sirv", "--etag", "--single"]
 EXPOSE 3000
+
