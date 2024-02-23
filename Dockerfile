@@ -31,19 +31,19 @@ FROM node:20.7 as builder
 WORKDIR /app
 COPY . .
 
-RUN npm install --legacy-peer-deps
+RUN npm ci
 RUN npm run build 
 
 
 
 FROM node:20.7-alpine
 
-RUN npm i -g sirv-cli
+RUN yarn global add sirv-cli
+
 WORKDIR /app
+
 COPY --from=builder /app/dist /app
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY --from=builder /app/build /app
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
 ENV HOST=0.0.0.0 PORT=3000
 CMD ["sirv", "--etag", "--single"]
 EXPOSE 3000

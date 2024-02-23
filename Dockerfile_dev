@@ -41,4 +41,4 @@ USER localuser
 WORKDIR $HOME
 EXPOSE 5173
 
-CMD npm install --legacy-peer-deps && npm run dev
+CMD npm ci && npm run dev
