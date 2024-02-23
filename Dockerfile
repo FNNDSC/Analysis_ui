@@ -31,7 +31,7 @@ FROM node:20.7 as builder
 WORKDIR /app
 COPY . .
 
-RUN npm ci
+RUN npm install --legacy-peer-deps
 RUN npm run build 
 
 
