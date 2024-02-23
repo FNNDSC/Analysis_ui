@@ -2,16 +2,15 @@ import { useEffect } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
 import { SimpleContainer, StepperComponent, Scaffold } from "./Scaffold";
 import DicomViewer from "./DicomViewer";
+import useSetDocumentTitle from './useSetDocumentTitle'
 
 const NotFound = () => {
 	return <div>NotFound</div>;
 };
 
 function App() {
-	useEffect(() => {
-		document.title = "ChRIS LegMeas";
-	}, []);
-
+	
+	useSetDocumentTitle();
 	const element = useRoutes([
 		{
 			path: "/",

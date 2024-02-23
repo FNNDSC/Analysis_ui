@@ -23,6 +23,7 @@ import { Menu, Fullscreen, Info } from "@mui/icons-material/";
 import ImageScanner from "./ImageScanner";
 import Footer from "./Footer";
 
+
 const theme = createTheme({
 	palette: {
 		mode: "dark",
@@ -30,6 +31,8 @@ const theme = createTheme({
 });
 
 export function Scaffold({ children }) {
+
+
 	return (
 		<div className="App">
 			<ThemeProvider theme={theme}>
@@ -247,12 +250,12 @@ export function StepperComponent() {
 									scanMeasurements && activeStep === index
 										? "scan-measure-label"
 										: scanAi && activeStep === index
-										  ? "scan-ai-label"
-										  : imageLoad && activeStep === index
-											  ? "image-load-label"
-											  : imagePush && activeStep === index
-												  ? "image-push-label"
-												  : ""
+											? "scan-ai-label"
+											: imageLoad && activeStep === index
+												? "image-load-label"
+												: imagePush && activeStep === index
+													? "image-push-label"
+													: ""
 								}
 							>
 								{label}
@@ -272,9 +275,8 @@ export function StepperComponent() {
 			>
 				{(scanMeasurements || scanAi) && (
 					<div
-						className={`${scanMeasurements || scanAi ? "scan" : ""} ${
-							scanAi ? "scan-ai-shadow" : ""
-						} ${scanMeasurements ? "scan-measure-shadow" : ""}`}
+						className={`${scanMeasurements || scanAi ? "scan" : ""} ${scanAi ? "scan-ai-shadow" : ""
+							} ${scanMeasurements ? "scan-measure-shadow" : ""}`}
 					/>
 				)}
 
