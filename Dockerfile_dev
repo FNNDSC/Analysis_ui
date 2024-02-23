@@ -39,6 +39,6 @@ RUN adduser --uid $UID --disabled-password localuser  \
 USER localuser
 
 WORKDIR $HOME
-EXPOSE 3000
+EXPOSE 5173
 
-CMD npm install --legacy-peer-deps && npm run start
+CMD npm install --legacy-peer-deps && npm run dev
